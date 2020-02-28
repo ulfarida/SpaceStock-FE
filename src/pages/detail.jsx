@@ -33,7 +33,6 @@ class Detail extends Component {
         const buildingData = this.state.buildingData
         const facilities = this.state.facilities.split(",")
         const settings = {
-            dots: true,
             autoplay: true,
             infinite: true,
             slidesToShow: 3,
@@ -79,7 +78,7 @@ class Detail extends Component {
                                     {this.state.loading === true ?
                                         null
                                         :
-                                        <Map buildingData={[this.state.buildingData]}/>
+                                        <Map buildingData={[this.state.buildingData]} page="detail"/>
                                     }
                                 </div>
                             </div>
