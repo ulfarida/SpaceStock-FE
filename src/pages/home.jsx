@@ -70,7 +70,7 @@ class Home extends Component {
     }
 
     getDetail = (id) => {
-        this.props.history.push('/'+id)
+        this.props.history.push('/'+id*1)
     }
 
     disablePageButton = () => {

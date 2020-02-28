@@ -18,15 +18,20 @@ class Detail extends Component {
     componentDidMount = async () => {
         const id = this.props.match.params.id
         const building = {
-			method: 'get',
+            method: 'get',
 			url: 'https://athazaky.site/building/'+id,
 			headers: {
-				'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
 			}
         };
         
-        const buildingRes = await axios(building)
-        this.setState({buildingData : buildingRes.data, facilities : buildingRes.data.facilities, loading : false})
+        axios(building)
+            .then(response=>{
+                this.setState({buildingData : response.data, facilities : response.data.facilities, loading : false})
+            })
+            .catch(error => {
+                this.props.history.push('/notFound')
+            })
     }
 
     render () {
@@ -119,7 +124,7 @@ class Detail extends Component {
                                     null
                                     :
                                     buildingData.other_images.map(image => (
-                                        <div><img src={image}/></div>
+                                        <div><img src={image} alt=""/></div>
                                     ))
                                     }
                                 </Slider>
