@@ -31,3 +31,8 @@
 .header .header__type {
   padding-right: 7%;
 }
+@media only screen and (max-width: 768px) {
+  .header__type {
+    padding-right: 0;
+  }
+}
