@@ -13,7 +13,9 @@ const BuildingList = (props) => {
             </div>
             <div className="px-3 mb-1">
               <div className="card-box__title py-3">
+              <Truncate lines={2}>
                 {props.building.name}
+              </Truncate>
               </div>
               <div className="card-box__address">
                 <Truncate lines={1}>
