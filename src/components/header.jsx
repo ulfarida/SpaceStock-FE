@@ -13,15 +13,22 @@ const Header = (props) => {
               </Link>
             </div>
             {props.page === "home" ?
+            <React.Fragment>
             <div className="col-md-5 col-8 input-icons">
               <i className="material-icons icon">search</i>
               <input className="form-control input-field align-items-center" placeholder="search..." name="search" type="text" onChange={props.doSearch}/>
             </div>
+            <div className="col-md-2 col-1 pl-0 header__type">
+            <select class="form-control">
+              <option onClick={props.filterType} value="all">All</option>
+              <option onClick={props.filterType} value="apartment">Apartment</option>
+              <option onClick={props.filterType} value="office">Office</option>
+            </select>
+            </div>
+            </React.Fragment>
             :
             null}
-            <div className="col-md-2 col-1">
             </div>
-          </div>
         </div>
       </React.Fragment>
     )

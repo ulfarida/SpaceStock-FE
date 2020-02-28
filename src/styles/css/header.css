@@ -21,11 +21,13 @@
 }
 .header .input-icons .icon {
   padding: 8px;
-  color: green;
   min-width: 50px;
   text-align: center;
 }
 .header .input-icons .input-field {
   width: 100%;
   padding-left: 40px;
+}
+.header .header__type {
+  padding-right: 7%;
 }

@@ -26,7 +26,7 @@ const BuildingList = (props) => {
               {props.building.city}
             </div>
             <div className="card-box__button px-4 text-right">
-              <button type="button" className="btn btn-danger" onClick={()=>props.getDetail(props.building.id)}>Detail</button>
+              <button type="button" className="btn" onClick={()=>props.getDetail(props.building.id)}>Detail</button>
             </div>
           </div>
         </div>
