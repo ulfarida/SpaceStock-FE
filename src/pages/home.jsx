@@ -10,15 +10,16 @@ import {
     pagination, 
     disablePageButton, 
     filterType,
-    handleResize
+    handleResize,
+    filterData
  } from "../store/home";
 
 class Home extends Component {
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
         window.addEventListener('resize', this.props.handleResize())
-        this.props.getAllBuilding()
-        this.props.disablePageButton()
+        await this.props.getAllBuilding()
+        await this.props.disablePageButton()
     }
 
     componentWillUnmount = () => {
@@ -28,6 +29,7 @@ class Home extends Component {
     pagination = async (event) => {
         this.props.pagination(event)
         this.props.disablePageButton()
+        this.props.filterData()
     }
 
     getDetail = (id) => {
@@ -84,6 +86,7 @@ export default connect(
         pagination,
         disablePageButton,
         filterType,
-        handleResize
+        handleResize,
+        filterData
     }
   )(Home);

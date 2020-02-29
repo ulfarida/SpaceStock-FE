@@ -5,7 +5,7 @@ const initialState = {
     buildingDataType : [],
     buildingData : [],
     page : 1,
-    maxPage : 1,
+    maxPage : 3,
     loading : true,
     type : '',
     windowSize : window.innerWidth
@@ -44,16 +44,19 @@ export function handleResize() {
     return { type: "HANDLE_RESIZE" };
   }
 
+export function filterData() {
+  return { type : "FILTER_DATA" }
+}
 
 export default function homeReducer(state = initialState, action) {
     switch (action.type) {
       case "ALL_BUILDING":
         return {
           ...state,
+          maxPage : Math.ceil(action.data.length/4),
           buildingDataAll: action.data,
           buildingDataType: action.data,
           buildingData: action.data.slice(0,4),
-          maxPage : Math.ceil(action.data.length/4),
           loading : false
         }
         
@@ -76,24 +79,37 @@ export default function homeReducer(state = initialState, action) {
             } else if (act === 'next' && pageNumber !== state.maxPage) {
                 pageNumber += 1
             }
-            
-            const buildingIndex = state.page*4
-            const buildingData = state.buildingDataType.slice(buildingIndex-4, buildingIndex)
+
             return {
-                ...state,
-                page : pageNumber,
-                buildingData : buildingData
+              ...state,
+              page : pageNumber
             };
+           
         }
         
+        case "FILTER_DATA": 
+          const buildingIndex = state.page*4
+              let buildingData = state.buildingDataType.slice(buildingIndex-4, buildingIndex)
+              return {
+                ...state,
+                buildingData : buildingData
+              };
+        
         case "PAGE_BUTTON": 
+            let maxPage = state.maxPage
             const prevButton = document.getElementById("prev")
             const nextButton = document.getElementById("next")
             if (state.page === 1) {
-                prevButton.className += ' disabled'
+              prevButton.className = 'btn btn-danger mr-3 disabled'
             }
-            if (state.page === state.maxPage || state.maxPage === 1) {
-                nextButton.className += ' disabled'
+            if (state.page === maxPage || maxPage === 1) {
+              nextButton.className += 'btn btn-danger disabled'
+            }
+            if (state.page !== 1 && maxPage !== 1){
+              prevButton.className = 'btn btn-danger mr-3'
+            }
+            if (state.page === 1 && maxPage !== 1){
+              nextButton.className = 'btn btn-danger'
             }
         
         case "FILTER_TYPE": 
