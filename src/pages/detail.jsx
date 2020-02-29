@@ -1,42 +1,36 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from "react-redux";
+import Slider from 'react-slick';
+
 import '../styles/css/detail.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
+
 import Header from '../components/header';
 import Map from '../components/maps';
+import { getBuildingData, deleteState } from "../store/detail";
+import Loader from '../components/loader';
 
 class Detail extends Component {
 
-    state = {
-        buildingData : {},
-        facilities : '',
-        loading : true
+    componentDidMount = () => {
+        const id = this.props.match.params.id
+        this.props.getBuildingData(id)
     }
 
-    componentDidMount = async () => {
-        const id = this.props.match.params.id
-        const building = {
-            method: 'get',
-			url: 'https://athazaky.site/building/'+id,
-			headers: {
-                'Content-Type': 'application/json',
-			}
-        };
-        
-        axios(building)
-            .then(response=>{
-                this.setState({buildingData : response.data, facilities : response.data.facilities, loading : false})
-            })
-            .catch(error => {
-                this.props.history.push('/notFound')
-            })
+    componentWillUnmount = () => {
+        this.props.deleteState()
     }
 
     render () {
-        const buildingData = this.state.buildingData
-        const facilities = this.state.facilities.split(",")
+        if(this.props.notFound){
+            this.props.history.push('/notFound')
+            return <div></div>
+        } else if (this.props.loading){
+            return <Loader/>
+        } else {
+        const buildingData = this.props.buildingData
+        const facilities = this.props.facilities.split(",")
         const settings = {
             autoplay: true,
             infinite: true,
@@ -67,8 +61,9 @@ class Detail extends Component {
                 }
               ]
           };
-        return (
-            <React.Fragment>
+
+            return (
+                <React.Fragment>
                 <Header page="detail"/>
                 <div className="detail__image">
                     <img src={buildingData.image} alt=""/>
@@ -104,10 +99,10 @@ class Detail extends Component {
                                     </p>
                                 </div>
                                 <div className="detail__content--loc">
-                                    {this.state.loading === true ?
+                                    {this.props.loading === true ?
                                         null
                                         :
-                                        <Map buildingData={[this.state.buildingData]} page="detail"/>
+                                        <Map buildingData={[this.props.buildingData]} page="detail"/>
                                     }
                                 </div>
                             </div>
@@ -120,12 +115,12 @@ class Detail extends Component {
                                 <div className="detail__content--images-list">
                               
                                 <Slider {...settings}>
-                                    {this.state.loading === true ? 
+                                    {this.props.loading === true ? 
                                     null
                                     :
                                     buildingData.other_images.map(image => (
                                         <div><img src={image} alt=""/></div>
-                                    ))
+                                        ))
                                     }
                                 </Slider>
                                 </div>
@@ -137,5 +132,14 @@ class Detail extends Component {
         );
     }
 }
-
-export default Detail;
+}
+ 
+export default connect(
+    state => ({
+        buildingData: state.detail.buildingData,
+        facilities: state.detail.facilities,
+        loading: state.detail.loading,
+        notFound: state.detail.notFound
+    }),
+    { getBuildingData, deleteState }
+  )(Detail);

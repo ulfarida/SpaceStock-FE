@@ -16,13 +16,13 @@ const Header = (props) => {
             <React.Fragment>
             <div className="col-md-5 col-7 input-icons">
               <i className="material-icons icon">search</i>
-              <input className="form-control input-field align-items-center" placeholder="search..." name="search" type="text" onChange={props.doSearch}/>
+              <input className="form-control input-field align-items-center" placeholder="search..." name="search" type="text" onChange={(e)=>props.doSearch(e.target.value)}/>
             </div>
             <div className="col-md-2 col-3 pl-0 header__type">
             <select class="form-control">
-              <option onClick={props.filterType} value="all">All</option>
-              <option onClick={props.filterType} value="apartment">Apartment</option>
-              <option onClick={props.filterType} value="office">Office</option>
+              <option onClick={()=>props.filterType("all")}>All</option>
+              <option onClick={()=>props.filterType("apartment")}>Apartment</option>
+              <option onClick={()=>props.filterType("office")}>Office</option>
             </select>
             </div>
             </React.Fragment>
