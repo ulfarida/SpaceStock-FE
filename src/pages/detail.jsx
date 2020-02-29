@@ -1,24 +1,33 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import Slider from 'react-slick';
+
 import '../styles/css/detail.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
+
 import Header from '../components/header';
 import Map from '../components/maps';
-import { connect } from "react-redux";
-import { getBuildingData } from "../store/detail";
+import { getBuildingData, deleteState } from "../store/detail";
+import Loader from '../components/loader';
 
 class Detail extends Component {
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
         const id = this.props.match.params.id
-        await this.props.getBuildingData(id)
+        this.props.getBuildingData(id)
+    }
+
+    componentWillUnmount = () => {
+        this.props.deleteState()
     }
 
     render () {
         if(this.props.notFound){
             this.props.history.push('/notFound')
             return <div></div>
+        } else if (this.props.loading){
+            return <Loader/>
         } else {
         const buildingData = this.props.buildingData
         const facilities = this.props.facilities.split(",")
@@ -132,5 +141,5 @@ export default connect(
         loading: state.detail.loading,
         notFound: state.detail.notFound
     }),
-    { getBuildingData }
+    { getBuildingData, deleteState }
   )(Detail);

@@ -7,7 +7,8 @@ const initialState = {
     page : 1,
     maxPage : 1,
     loading : true,
-    type : ''
+    type : '',
+    windowSize : window.innerWidth
 };
 
 export function getAllBuilding() {
@@ -39,6 +40,11 @@ export function filterType(type) {
     return { type: "FILTER_TYPE", data: type };
   }
 
+export function handleResize() {
+    return { type: "HANDLE_RESIZE" };
+  }
+
+
 export default function homeReducer(state = initialState, action) {
     switch (action.type) {
       case "ALL_BUILDING":
@@ -49,17 +55,21 @@ export default function homeReducer(state = initialState, action) {
           buildingData: action.data.slice(0,4),
           maxPage : Math.ceil(action.data.length/4),
           loading : false
-        };
-        case "DO_SEARCH": {
+        }
+        
+      case "DO_SEARCH": 
+          {
             const buildingData = state.buildingDataType.filter(item => item.name.toLowerCase().indexOf(action.data) > -1)
             return {
                 ...state,
                 buildingData: buildingData.slice(0,4),
             };
         }
-        case "PAGINATION": {
+        
+        case "PAGINATION": 
+          {
             const act = action.data.target.name
-            const pageNumber = state.page
+            let pageNumber = state.page
             
             if (act === 'prev' && pageNumber !== 1) {
                 pageNumber -= 1
@@ -75,7 +85,8 @@ export default function homeReducer(state = initialState, action) {
                 buildingData : buildingData
             };
         }
-        case "PAGE_BUTTON": {
+        
+        case "PAGE_BUTTON": 
             const prevButton = document.getElementById("prev")
             const nextButton = document.getElementById("next")
             if (state.page === 1) {
@@ -84,21 +95,28 @@ export default function homeReducer(state = initialState, action) {
             if (state.page === state.maxPage || state.maxPage === 1) {
                 nextButton.className += ' disabled'
             }
+        
+        case "FILTER_TYPE": 
+          {
+          const type = action.data
+          let buildingDataType;
+          if(type === "apartment" || type === "office"){
+            buildingDataType = state.buildingDataAll.filter(building => building.building_type===type)
+          } else {
+            buildingDataType = state.buildingDataAll
+          }
+          return {
+            ...state,
+            buildingDataType : buildingDataType,
+            buildingData : buildingDataType.slice(0,4)
+          }
         }
-        case "FILTER_TYPE": {
-            const type = action.data
-            let buildingDataType;
-            if(type === "apartment" || type === "office"){
-                buildingDataType = state.buildingDataAll.filter(building => building.building_type===type)
-            } else {
-                buildingDataType = state.buildingDataAll
-            }
-            return {
-                ...state,
-                buildingDataType : buildingDataType,
-                buildingData : buildingDataType.slice(0,4)
-            };
-        }
+        
+        case "HANDLE_RESIZE": 
+          return {
+            ...state,
+            windowSize : window.innerWidth
+          };
     default:
       return state;
   }

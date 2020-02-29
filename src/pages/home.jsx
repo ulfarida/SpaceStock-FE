@@ -4,13 +4,25 @@ import BuildingList from '../components/buildingList'
 import Map from '../components/maps'
 import '../styles/css/home.css'
 import { connect } from "react-redux";
-import { getAllBuilding, doSearch, pagination, disablePageButton, filterType } from "../store/home";
+import { 
+    getAllBuilding, 
+    doSearch, 
+    pagination, 
+    disablePageButton, 
+    filterType,
+    handleResize
+ } from "../store/home";
 
 class Home extends Component {
 
-    componentDidMount = async () => {
+    componentDidMount = () => {
+        window.addEventListener('resize', this.props.handleResize())
         this.props.getAllBuilding()
         this.props.disablePageButton()
+    }
+
+    componentWillUnmount = () => {
+        window.removeEventListener('resize', this.props.handleResize())
     }
 
     pagination = async (event) => {
@@ -46,7 +58,8 @@ class Home extends Component {
                             <Map 
                                 buildingData={this.props.buildingData} 
                                 getDetail={this.getDetail}
-                                page="home"/>
+                                windowSize={this.props.windowSize}
+                                page="home" />
                         }
                         </div>
                     </div>
@@ -63,12 +76,14 @@ export default connect(
         buildingData: state.home.buildingData,
         maxPage: state.home.maxPage,
         loading: state.home.loading,
+        windowSize: state.home.windowSize
     }),
     {
         getAllBuilding,
         doSearch,
         pagination,
         disablePageButton,
-        filterType
+        filterType,
+        handleResize
     }
   )(Home);

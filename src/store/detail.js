@@ -20,6 +20,10 @@ export function getBuildingData(id) {
     };
   }
 
+export function deleteState() {
+  return { type: "DELETE_STATE" }; 
+}
+
 
 export default function detailReducer(state = initialState, action) {
     switch (action.type) {
@@ -35,6 +39,15 @@ export default function detailReducer(state = initialState, action) {
           ...state,
           notFound : true
         }
+      case "DELETE_STATE":
+        return {
+          ...state,
+          buildingData : {},
+          facilities : '',
+          loading : true,
+          notFound : false
+        }
+
     default:
       return state;
   }
