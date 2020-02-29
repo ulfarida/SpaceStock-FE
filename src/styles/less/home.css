@@ -1,0 +1,56 @@
+.home__list {
+  overflow: auto;
+  margin-top: 70px;
+  position: relative;
+  height: 90vh;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+.home__list button {
+  border-radius: 15px;
+  background-color: #f15c60;
+  color: white;
+}
+.home__maps {
+  margin-top: 70px;
+  height: 88vh;
+}
+.home__maps .map {
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.home__list::-webkit-scrollbar {
+  display: none;
+}
+.card-box {
+  border-radius: 5%;
+  height: 400px;
+}
+.card-box .card-box__display-img img {
+  width: 100%;
+  height: 202px;
+  border-radius: 5% 5% 0 0;
+  transition: all 2s;
+  transform: scale(1);
+}
+.card-box .card-box__title {
+  font-weight: 600;
+  font-size: 105%;
+  height: 82px;
+}
+.card-box .card-box__address {
+  font-size: 90%;
+  color: grey;
+  height: 21px;
+}
+.card-box .card-box__location {
+  display: inline-flex;
+  color: darkslategray;
+}
+@media only screen and (max-width: 768px) {
+  .home__maps {
+    height: 350px;
+    padding-bottom: 5%;
+  }
+}

@@ -1,0 +1,38 @@
+.header {
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  z-index: 1;
+  background-color: #f15c60;
+}
+.header .header__home-btn {
+  margin-top: 8px;
+}
+.header .header__home-btn i {
+  font-size: 250%;
+  color: white;
+  cursor: pointer;
+}
+.header .input-icons {
+  width: 100%;
+}
+.header .input-icons i {
+  position: absolute;
+}
+.header .input-icons .icon {
+  padding: 8px;
+  min-width: 50px;
+  text-align: center;
+}
+.header .input-icons .input-field {
+  width: 100%;
+  padding-left: 40px;
+}
+.header .header__type {
+  padding-right: 7%;
+}
+@media only screen and (max-width: 768px) {
+  .header__type {
+    padding-right: 0;
+  }
+}
